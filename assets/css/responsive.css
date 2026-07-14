@@ -1,0 +1,263 @@
+/* ==========================================================================
+   SAGMT — responsive.css
+   La mayoría del sistema ya es fluido por diseño (clamp + grid auto-fit).
+   Aquí solo van los puntos donde SÍ conviene un cambio de estructura real:
+   menú móvil, hero/about de dos columnas → una, y container queries.
+   ========================================================================== */
+
+/* ---- Menú móvil ---- */
+@media (max-width: 900px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-nav__list,
+  .site-nav__contact {
+    display: none;
+  }
+
+  .site-nav.is-open .site-nav__list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--navy-900);
+    padding: var(--space-md) var(--container-pad);
+    border-bottom: 1px solid var(--border-dark);
+  }
+
+  .site-nav.is-open .site-nav__contact {
+    display: inline-flex;
+    margin: 0 var(--container-pad) var(--space-sm);
+  }
+
+  .site-header__bar {
+    position: relative;
+  }
+}
+
+/* ---- Hero: de dos columnas a una sola cuando ya no cabe cómodo ---- */
+@media (max-width: 860px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__media {
+    order: -1;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* ---- About (contacto): igual criterio que el hero ---- */
+@media (max-width: 760px) {
+  .about-block {
+    grid-template-columns: 1fr;
+  }
+
+  .about-block__figure {
+    order: -1;
+  }
+}
+
+/* ---- CTA de contacto: columnas a fila cuando el espacio se reduce ---- */
+@media (max-width: 720px) {
+  .cta-contact__grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .cta-contact .btn-row {
+    justify-content: center;
+  }
+}
+
+/* ---- Container queries: la grilla de contacto se adapta a su propio
+   contenedor, no a la pantalla completa (por si algún día vive dentro
+   de un sidebar o layout distinto) ---- */
+.contact-grid-wrap {
+  container-type: inline-size;
+  container-name: contact-grid-wrap;
+}
+
+@container contact-grid-wrap (max-width: 640px) {
+  .contact-card {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .contact-card__icon {
+    flex-shrink: 0;
+  }
+}
+
+.service-index-wrap {
+  container-type: inline-size;
+}
+
+@container (max-width: 420px) {
+  .service-index {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+    scrollbar-width: none;
+  }
+
+  .service-index::-webkit-scrollbar {
+    display: none;
+  }
+
+  .service-index a {
+    flex: 0 0 auto;
+  }
+}
+
+/* ---- Densidad móvil tipo app: evita secciones y CTA de ancho completo
+   convertidos en una columna interminable en la portada. ---- */
+@media (max-width: 720px) {
+  .section {
+    padding-block: clamp(2.2rem, 9vw, 3.2rem);
+  }
+
+  .section-head {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.45rem, 6.4vw, 2rem);
+  }
+
+  .trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .trust-card {
+    padding: 0.85rem;
+    border-radius: 0.85rem;
+  }
+
+  .trust-card h3 {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .trust-card p {
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .cta-contact__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: left;
+  }
+
+  .cta-contact {
+    padding: 1.15rem;
+    border-radius: 0.95rem;
+  }
+
+  .cta-contact h2 {
+    font-size: clamp(1.35rem, 6vw, 1.75rem);
+    line-height: 1.16;
+  }
+
+  .cta-contact p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .cta-contact .btn-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+    width: 100%;
+  }
+
+  .cta-contact .btn {
+    width: 100%;
+    min-width: 0;
+    padding: 0.68rem 0.3rem;
+    border-radius: 0.72rem;
+    font-size: 0.72rem;
+    line-height: 1.15;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .cta-contact .btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .site-footer {
+    padding-block: 2rem 1rem;
+  }
+
+  .site-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 0.9rem;
+    padding-bottom: 1.35rem;
+  }
+
+  .site-footer__brand {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    max-width: none;
+    gap: 0.8rem;
+  }
+
+  .site-footer__brand p {
+    font-size: 0.76rem !important;
+    line-height: 1.45;
+  }
+
+  .site-footer__grid > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .site-footer__grid > div:last-child .site-footer__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  .site-footer h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .site-footer__list {
+    gap: 0.45rem;
+  }
+
+  .site-footer__list a {
+    font-size: 0.76rem;
+  }
+
+  .site-footer__bottom {
+    font-size: 0.7rem;
+    gap: 0.55rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .trust-grid {
+    gap: 0.5rem;
+  }
+
+  .trust-card {
+    padding: 0.72rem;
+  }
+
+  .cta-contact .btn {
+    font-size: 0.68rem;
+  }
+}

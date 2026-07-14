@@ -1,0 +1,404 @@
+/* ==========================================================================
+   SAGMT — home-showcase.css
+   Composición de portada inspirada en la referencia aprobada:
+   banner dominante a todo el ancho, franja de ocho tarjetas verticales y
+   barra compacta de contacto. En móvil conserva el carrusel horizontal.
+   ========================================================================== */
+
+.home-showcase {
+  background: #f7f8fb;
+  padding: 0 0 clamp(0.8rem, 1.6vw, 1.35rem);
+  border-bottom: 1px solid var(--border);
+}
+
+.home-showcase__container {
+  max-width: 1536px;
+  padding-inline: 0;
+  display: grid;
+  gap: 0;
+  background: #f7f8fb;
+}
+
+/* ---- Banner principal ---- */
+.hero-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.hero-carousel__viewport {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 10 / 3;
+  border-radius: 0;
+  background: var(--navy-950);
+  box-shadow: none;
+}
+
+.hero-carousel__slides,
+.hero-slide,
+.hero-slide picture,
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-carousel__slides { position: relative; }
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease), visibility 300ms var(--ease);
+}
+
+.hero-slide.is-active {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.hero-slide img {
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hero-carousel__control {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: clamp(2.4rem, 3.6vw, 3.35rem);
+  height: clamp(2.4rem, 3.6vw, 3.35rem);
+  border-radius: 50%;
+  color: var(--white);
+  background: rgba(5, 13, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  transform: translateY(-50%);
+  transition: background var(--transition), transform var(--transition), opacity var(--transition);
+}
+
+.hero-carousel__control:hover {
+  background: rgba(201, 162, 39, 0.92);
+  color: var(--navy-950);
+  transform: translateY(-50%) scale(1.04);
+}
+
+.hero-carousel__control--prev { left: clamp(0.75rem, 2.2vw, 2.4rem); }
+.hero-carousel__control--next { right: clamp(0.75rem, 2.2vw, 2.4rem); }
+
+.hero-carousel__control svg,
+.service-showcase__control svg {
+  width: 55%;
+  height: 55%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-carousel__dots {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(0.5rem, 1vw, 0.85rem);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.3rem 0.48rem;
+  border-radius: var(--radius-pill);
+  background: rgba(5, 13, 30, 0.46);
+  backdrop-filter: blur(7px);
+  transform: translateX(-50%);
+}
+
+.hero-carousel__dot {
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: width 220ms var(--ease), background 220ms var(--ease);
+}
+
+.hero-carousel__dot.is-active {
+  width: 1.2rem;
+  border-radius: var(--radius-pill);
+  background: var(--gold-400);
+}
+
+/* ---- Franja de servicios ---- */
+.service-strip {
+  min-width: 0;
+  padding: clamp(0.85rem, 1.55vw, 1.35rem) clamp(1.15rem, 3.7vw, 3.8rem) clamp(0.7rem, 1.25vw, 1.05rem);
+  background: linear-gradient(180deg, #f8f9fb 0%, #f0f2f6 100%);
+}
+
+.service-showcase {
+  position: relative;
+  min-width: 0;
+  container-type: inline-size;
+  container-name: service-showcase;
+}
+
+.service-showcase__viewport {
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.2rem;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  touch-action: pan-x pan-y;
+}
+
+.service-showcase__viewport::-webkit-scrollbar { display: none; }
+
+.service-showcase__viewport:focus-visible {
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.45);
+}
+
+.service-showcase__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(8.2rem, 28vw, 10rem);
+  gap: clamp(0.5rem, 1.25vw, 1.05rem);
+  width: max-content;
+  padding: 0.22rem 0.2rem 0.7rem;
+}
+
+.service-tile {
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.service-tile a,
+.service-tile picture,
+.service-tile img {
+  display: block;
+  width: 100%;
+}
+
+.service-tile a {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(0.8rem, 1.25vw, 1.15rem);
+  background: #fff;
+  box-shadow: 0 7px 16px rgba(7, 20, 41, 0.18);
+  transition: transform 220ms var(--ease), filter 220ms var(--ease), box-shadow 220ms var(--ease);
+}
+
+.service-tile a:hover,
+.service-tile a:focus-visible {
+  transform: translateY(-5px);
+  filter: saturate(1.04) contrast(1.01);
+  box-shadow: 0 14px 26px rgba(7, 20, 41, 0.22);
+}
+
+.service-tile img {
+  height: auto;
+  aspect-ratio: 5 / 9;
+  object-fit: cover;
+  object-position: center;
+  border-radius: inherit;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.service-showcase__control {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: clamp(2rem, 3.5vw, 2.65rem);
+  height: clamp(2rem, 3.5vw, 2.65rem);
+  border-radius: 50%;
+  color: var(--navy-950);
+  background: rgba(238, 178, 20, 0.98);
+  border: 1px solid rgba(166, 130, 28, 0.72);
+  box-shadow: 0 8px 22px rgba(7, 20, 41, 0.22);
+  transform: translateY(-58%);
+  transition: opacity var(--transition), transform var(--transition), background var(--transition);
+}
+
+.service-showcase__control:hover {
+  background: var(--gold-400);
+  transform: translateY(-58%) scale(1.05);
+}
+
+.service-showcase__control--prev { left: -0.7rem; }
+.service-showcase__control--next { right: -0.7rem; }
+.service-showcase__control[disabled],
+.service-showcase__control.is-hidden { opacity: 0; pointer-events: none; }
+
+.service-showcase__dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0.55rem;
+  gap: 0.28rem;
+  margin-top: 0.08rem;
+}
+
+.service-showcase__dot {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: #cbd1df;
+  transition: width 180ms var(--ease), background 180ms var(--ease);
+}
+
+.service-showcase__dot.is-active {
+  width: 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--gold-500);
+}
+.service-showcase__dots.is-hidden { display: none; }
+
+@container service-showcase (min-width: 58rem) {
+  .service-showcase__track {
+    grid-auto-flow: initial;
+    grid-auto-columns: initial;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    width: 100%;
+  }
+  .service-showcase__control,
+  .service-showcase__dots { display: none; }
+}
+
+/* ---- Barra inferior compacta de la referencia ---- */
+.home-utility-bar {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr 1.05fr;
+  align-items: stretch;
+  margin: 0 clamp(1.15rem, 2.5vw, 2.5rem);
+  border-radius: 999px;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(90deg, #071429, #0b1c3a, #071429);
+  box-shadow: 0 12px 28px rgba(7, 20, 41, 0.16);
+}
+
+.home-utility-bar__item {
+  min-width: 0;
+  min-height: clamp(4.6rem, 7vw, 6rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.7rem, 1.4vw, 1.2rem);
+  padding: clamp(0.8rem, 1.5vw, 1.2rem) clamp(1rem, 2.2vw, 2rem);
+}
+
+.home-utility-bar__item + .home-utility-bar__item {
+  border-left: 1px solid rgba(221, 187, 86, 0.38);
+}
+
+.home-utility-bar__item > span:not(.home-utility-bar__icon):not(.home-utility-bar__networks) {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.home-utility-bar small {
+  color: var(--gold-300);
+  font-size: clamp(0.6rem, 0.75vw, 0.76rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.home-utility-bar strong {
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: clamp(0.8rem, 1.25vw, 1.18rem);
+  line-height: 1.2;
+}
+
+.home-utility-bar__icon {
+  display: grid;
+  place-items: center;
+  width: clamp(2.4rem, 4vw, 3.25rem);
+  height: clamp(2.4rem, 4vw, 3.25rem);
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: var(--navy-950);
+  background: var(--gold-400);
+}
+.home-utility-bar__icon svg { width: 56%; height: 56%; }
+
+.home-utility-bar__social { flex-wrap: wrap; }
+.home-utility-bar__networks { display: flex; gap: 0.45rem; }
+.home-utility-bar__networks a {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  font-weight: 800;
+}
+.home-utility-bar__networks a:hover { background: var(--gold-500); color: var(--navy-950); }
+
+@media (max-width: 900px) {
+  .home-utility-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-radius: 1rem;
+  }
+  .home-utility-bar__item {
+    min-height: 4.1rem;
+    gap: 0.5rem;
+    padding: 0.7rem 0.55rem;
+  }
+  .home-utility-bar__icon { width: 2.25rem; height: 2.25rem; }
+  .home-utility-bar__networks { display: none; }
+}
+
+@media (max-width: 640px) {
+  .hero-carousel__viewport { aspect-ratio: 3 / 1; }
+  .hero-carousel__control { width: 1.8rem; height: 1.8rem; opacity: 0.92; }
+  .hero-carousel__control--prev { left: 0.35rem; }
+  .hero-carousel__control--next { right: 0.35rem; }
+  .hero-carousel__dots { bottom: 0.22rem; gap: 0.25rem; padding: 0.2rem 0.32rem; }
+  .hero-carousel__dot { width: 0.32rem; height: 0.32rem; }
+  .hero-carousel__dot.is-active { width: 0.82rem; }
+
+  .service-strip { padding: 0.55rem 0.55rem 0.45rem; }
+  .service-showcase__track {
+    grid-auto-columns: clamp(7rem, 27vw, 8.1rem);
+    gap: 0.42rem;
+    padding-bottom: 0.48rem;
+  }
+  .service-showcase__control { width: 1.8rem; height: 1.8rem; }
+  .service-showcase__control--prev { left: -0.15rem; }
+  .service-showcase__control--next { right: -0.15rem; }
+  .service-showcase__dots { min-height: 0.42rem; }
+
+  .home-utility-bar {
+    margin: 0 0.55rem;
+    border-radius: 0.85rem;
+  }
+  .home-utility-bar__item { min-height: 3.45rem; padding: 0.5rem 0.3rem; }
+  .home-utility-bar__icon { display: none; }
+  .home-utility-bar small { font-size: 0.48rem; letter-spacing: 0.03em; }
+  .home-utility-bar strong { font-size: 0.62rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide,
+  .service-showcase__viewport { transition: none; scroll-behavior: auto; }
+}
